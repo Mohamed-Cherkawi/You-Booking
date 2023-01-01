@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -24,7 +25,7 @@ import java.util.Set;
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
-    @SequenceGenerator(name = "app_user_seq")
+    @SequenceGenerator(name = "app_user_seq",allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -44,9 +45,17 @@ public class AppUser {
     private String cin;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "users_roles",
+    @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id"))
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new LinkedHashSet<>();
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private Set<HotelOffer> approvedOffers = new LinkedHashSet<>();
+
+    @OneToMany
+    @JoinColumn(name = "reserved_by")
+    private Set<Reservation> reservations = new LinkedHashSet<>();
 
 }
