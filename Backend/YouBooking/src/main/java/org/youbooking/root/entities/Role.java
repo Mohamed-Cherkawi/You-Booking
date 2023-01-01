@@ -16,9 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@Getter
-@Entity
-@ToString
+
+@Entity @Getter @ToString
 @Table(name = "app_role")
 public class Role {
     @Id

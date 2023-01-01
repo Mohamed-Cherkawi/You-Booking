@@ -3,6 +3,7 @@ package org.youbooking.root.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 
-@Entity @Getter @Setter
+@Entity @Getter @Setter @ToString
 @Table(name = "app_user")
 public class AppUser {
     @Id
@@ -50,12 +51,19 @@ public class AppUser {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new LinkedHashSet<>();
 
-    @OneToMany
+    @ToString.Exclude
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private Set<HotelOffer> approvedOffers = new LinkedHashSet<>();
 
-    @OneToMany
+    @ToString.Exclude
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "reserved_by")
     private Set<Reservation> reservations = new LinkedHashSet<>();
+
+    @ToString.Exclude
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "owner_id")
+    private Set<Hotel> createdHotels = new LinkedHashSet<>();
 
 }

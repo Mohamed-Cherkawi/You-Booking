@@ -3,6 +3,7 @@ package org.youbooking.root.entities;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.youbooking.root.enums.HotelOfferStateEnum;
 
 import javax.persistence.Column;
@@ -16,9 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@Entity
+@Entity @Getter @Setter @ToString
 @Table(name = "hotel_offer")
 public class HotelOffer {
     @Id

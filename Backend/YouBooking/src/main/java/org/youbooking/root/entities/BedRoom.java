@@ -2,6 +2,7 @@ package org.youbooking.root.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.youbooking.root.enums.BedRoomStateEnum;
 
 import javax.persistence.Column;
@@ -14,9 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@Getter
-@Setter
-@Entity
+@Entity @Getter @Setter @ToString
 @Table(name = "bed_room")
 public class BedRoom {
     @Id
