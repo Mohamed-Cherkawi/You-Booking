@@ -6,7 +6,7 @@ public enum RoleEnum {
     HOTEL_OWNER("Hotel_Owner") ,
     ADMIN("Admin");
 
-    private String roleName;
+    private final String roleName;
 
     RoleEnum(String roleName) {
         this.roleName = roleName;
