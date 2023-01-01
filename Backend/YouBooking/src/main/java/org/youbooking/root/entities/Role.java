@@ -19,11 +19,11 @@ import javax.persistence.Table;
 @Getter
 @Entity
 @ToString
-@Table(name = "role")
+@Table(name = "app_role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
-    @SequenceGenerator(name = "role_seq")
+    @SequenceGenerator(name = "role_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
 
