@@ -2,9 +2,9 @@ package org.youbooking.root.enums;
 
 public enum RoleEnum {
 
-    CLIENT("Client") ,
-    HOTEL_OWNER("Hotel_Owner") ,
-    ADMIN("Admin");
+    CLIENT("CLIENT") ,
+    HOTEL_OWNER("HOTEL_OWNER") ,
+    ADMIN("ADMIN");
 
     private final String roleName;
 

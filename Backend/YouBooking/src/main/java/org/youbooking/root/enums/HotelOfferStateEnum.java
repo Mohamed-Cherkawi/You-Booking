@@ -1,9 +1,9 @@
 package org.youbooking.root.enums;
 
 public enum HotelOfferStateEnum {
-    PENDING("Pending") ,
-    ACCEPTED("Accepted") ,
-    REJECTED("Rejected");
+    PENDING("PENDING") ,
+    ACCEPTED("ACCEPTED") ,
+    REJECTED("REJECTED");
 
     private final String stateName;
 

@@ -1,9 +1,9 @@
 package org.youbooking.root.enums;
 
 public enum BedRoomStateEnum {
-    RESERVED("Reserved") ,
-    AVAILABLE("Available") ,
-    DISABLED("Disabled") ;
+    RESERVED("RESERVED") ,
+    AVAILABLE("AVAILABLE") ,
+    DISABLED("DISABLED") ;
 
     private final String stateName;
 

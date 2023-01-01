@@ -1,9 +1,10 @@
 package org.youbooking.root.enums;
 
 public enum HotelStateEnum {
-    OPEN("Open") ,
-    CLOSED("Closed") ,
-    UNDER_DEVELOPMENT("Under_Development") ;
+    OPEN("OPEN") ,
+    CLOSED("CLOSED") ,
+    RESERVED("RESERVED") ,
+    UNDER_DEVELOPMENT("UNDER_DEVELOPMENT") ;
 
     private final String stateName;
 
