@@ -29,13 +29,13 @@ import java.util.Set;
 
 @Configuration @Transactional @AllArgsConstructor
 public class Data {
-    RoleRepository roleRepository;
-    UserRepository userRepository;
-    BedRoomRepository bedRoomRepository;
-    BedRepository bedRepository;
-    AddressRepository addressRepository;
-    AttachmentRepository attachmentRepository;
-    HotelRepository hotelRepository;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final BedRoomRepository bedRoomRepository;
+    private final BedRepository bedRepository;
+    private final AddressRepository addressRepository;
+    private final AttachmentRepository attachmentRepository;
+    private final HotelRepository hotelRepository;
 
     @Bean
     public void insertSomeData(){
