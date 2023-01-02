@@ -1,6 +1,7 @@
 package org.youbooking.root.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,16 +14,19 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
-@Entity @Getter @Setter @ToString
+@Entity @Getter @Setter @ToString @NoArgsConstructor
 @Table(name = "address")
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq")
     @SequenceGenerator(name = "address_seq")
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
     @Column(nullable = false)
     private String name;
 
+    public Address(String name) {
+        this.name = name;
+    }
 }

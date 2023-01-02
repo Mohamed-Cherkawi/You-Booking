@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -24,7 +25,7 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reservation_seq")
     @SequenceGenerator(name = "reservation_seq",allocationSize = 1)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
     @ToString.Exclude
@@ -40,5 +41,9 @@ public class Reservation {
 
     @Column(name = "end_date", nullable = false)
     private LocalDateTime endDate;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "reserved_by", nullable = false)
+    private AppUser reservedBy;
 
 }

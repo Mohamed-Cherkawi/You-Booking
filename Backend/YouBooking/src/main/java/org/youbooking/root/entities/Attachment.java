@@ -1,6 +1,7 @@
 package org.youbooking.root.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,13 +14,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
-@Entity @Getter @Setter @ToString
+@Entity @Getter @Setter @ToString @NoArgsConstructor
 @Table(name = "attachment")
 public class Attachment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attachment_seq")
     @SequenceGenerator(name = "attachment_seq")
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
     @Column(nullable = false, length = 20)
@@ -31,4 +32,9 @@ public class Attachment {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
+    public Attachment(String title, String description, String imageUrl) {
+        this.title = title;
+        this.description = description;
+        this.imageUrl = imageUrl;
+    }
 }
