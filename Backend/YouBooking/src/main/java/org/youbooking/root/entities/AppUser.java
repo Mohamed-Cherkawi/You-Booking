@@ -1,5 +1,6 @@
 package org.youbooking.root.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,11 +11,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Entity;
@@ -51,12 +52,9 @@ public class AppUser {
     @Column(nullable = false)
     private AvailabilityStateEnum status = AvailabilityStateEnum.ONLINE;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @ToString.Exclude
-    private Set<Role> roles ;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     @ToString.Exclude
@@ -66,16 +64,21 @@ public class AppUser {
     @ToString.Exclude
     private Set<Reservation> reservations = null;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Hotel> createdHotels = null;
 
-    public AppUser(String username, String password, String name, String phone, String cin, Set<Role> roles) {
+    public AppUser(String username, String password, String name, String phone, String cin, Role role) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.phone = phone;
         this.cin = cin;
-        this.roles = roles;
+        this.role = role;
+    }
+
+    @JsonIgnore
+    public Set<Hotel> getCreatedHotels() {
+        return createdHotels;
     }
 }
