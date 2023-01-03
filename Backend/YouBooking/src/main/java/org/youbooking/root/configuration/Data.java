@@ -44,7 +44,7 @@ public class Data {
         Role hotelOwnerRole = new Role(RoleEnum.HOTEL_OWNER);
         roleRepository.saveAll(List.of(adminRole,clientRole,hotelOwnerRole));
 
-        AppUser user = new AppUser("simoxCoder2002","pass123","Mohamed Cherkaoui","0619377346","EE773HH",Set.of(hotelOwnerRole));
+        AppUser user = new AppUser("simoxCoder2002","pass123","Mohamed Cherkaoui","0619377346","EE773HH",hotelOwnerRole);
         userRepository.save(user);
 
         BedRoom bedRoom1= new BedRoom("A1",20F, BedRoomStateEnum.AVAILABLE);
