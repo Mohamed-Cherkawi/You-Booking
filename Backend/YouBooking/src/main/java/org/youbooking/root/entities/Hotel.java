@@ -57,7 +57,7 @@ public class Hotel{
     @Column(name = "is_approved")
     private Boolean isApproved = null;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false , cascade = CascadeType.PERSIST)
     @JoinColumn(name = "owner_id", nullable = false)
     private AppUser owner;
 
