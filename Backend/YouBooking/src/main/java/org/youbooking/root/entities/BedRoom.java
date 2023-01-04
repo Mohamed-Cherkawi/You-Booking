@@ -30,7 +30,7 @@ public class BedRoom {
     @Column(nullable = false, length = 30)
     private String reference;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = {CascadeType.PERSIST , CascadeType.MERGE})
     @ToString.Exclude
     private Set<Bed> beds ;
 

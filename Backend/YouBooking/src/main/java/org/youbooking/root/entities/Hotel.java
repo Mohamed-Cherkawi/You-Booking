@@ -36,16 +36,16 @@ public class Hotel{
     @Column(nullable = false, length = 50)
     private String name;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.MERGE})
     @JoinColumn(name = "hotel_id")
     @ToString.Exclude
     private Set<BedRoom> bedRooms = new LinkedHashSet<>();
 
-    @OneToOne(cascade = CascadeType.PERSIST, optional = false)
+    @OneToOne(cascade = {CascadeType.PERSIST , CascadeType.REMOVE , CascadeType.MERGE}, optional = false)
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = {CascadeType.PERSIST , CascadeType.REMOVE , CascadeType.MERGE})
     @JoinColumn(name = "hotel_id")
     @ToString.Exclude
     private Set<Attachment> attachments ;
