@@ -8,6 +8,6 @@ public interface HotelServiceInterface {
     Set<HotelDto> getAllHotels();
     HotelDto getHotel(Long id);
     HotelDto createHotel(HotelDto hotel);
-    HotelDto updateHotel(Long id ,HotelDto hotelDto);
-    void deleteHotel(Long hotelId);
+    HotelDto updateHotel(HotelDto hotelDto);
+    boolean deleteHotel(Long hotelId);
 }
