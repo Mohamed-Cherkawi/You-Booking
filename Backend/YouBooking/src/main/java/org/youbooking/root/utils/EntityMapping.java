@@ -7,8 +7,7 @@ import org.youbooking.root.services.dtos.HotelDto;
 public class EntityMapping {
     private static final ModelMapper modelMapper = new ModelMapper();
 
-    private EntityMapping() {
-    }
+    private EntityMapping() {}
 
     public static HotelDto hotelToHotelDTO(Hotel hotel) {
         return modelMapper.map(hotel, HotelDto.class);
