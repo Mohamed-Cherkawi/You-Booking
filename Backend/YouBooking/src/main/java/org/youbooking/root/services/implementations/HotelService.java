@@ -42,4 +42,7 @@ public class HotelService implements HotelServiceInterface {
 
         return EntityMapping.hotelToHotelDTO(hotelRepository.save(newHotel));
     }
+    public void deleteHotel(Long hotelId){
+        hotelRepository.deleteById(hotelId);
+    }
 }
