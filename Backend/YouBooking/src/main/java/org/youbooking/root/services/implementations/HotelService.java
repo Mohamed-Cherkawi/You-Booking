@@ -11,7 +11,9 @@ import org.youbooking.root.services.dtos.HotelDto;
 import org.youbooking.root.services.interfaces.HotelServiceInterface;
 import org.youbooking.root.utils.EntityMapping;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,18 +23,20 @@ public class HotelService implements HotelServiceInterface {
     private final HotelRepository hotelRepository;
     private final RoleRepository roleRepository;
 
+
+    @Override
     public Set<HotelDto> getAllHotels(){
         List<Hotel> hotels = hotelRepository.findAll();
         return hotels.stream()
                 .map(EntityMapping::hotelToHotelDTO)
                 .collect(Collectors.toSet());
     }
-    public HotelDto getHotel(Long id){
-        Hotel hotel= hotelRepository.findById(id).orElseThrow();
-
-        return EntityMapping.hotelToHotelDTO(hotel);
-    }
     @Override
+    public HotelDto getHotel(Long id){
+        Optional<Hotel> hotelOptional = hotelRepository.findById(id);
+        return hotelOptional.map(EntityMapping::hotelToHotelDTO).orElse(null);
+    }
+    @Override @Transactional
     public HotelDto createHotel(HotelDto hotel) {
         Hotel newHotel = EntityMapping.hotelDTOToHotel(hotel);
 
@@ -42,7 +46,36 @@ public class HotelService implements HotelServiceInterface {
 
         return EntityMapping.hotelToHotelDTO(hotelRepository.save(newHotel));
     }
-    public void deleteHotel(Long hotelId){
-        hotelRepository.deleteById(hotelId);
+
+    @Override @Transactional
+    public HotelDto updateHotel(HotelDto hotelDto) {
+        Optional<Hotel> hotelOptional = hotelRepository.findById(hotelDto.getId());
+
+        if( hotelOptional.isEmpty() ){
+            return null;
+        }
+        Hotel hotelToBeUpdated = hotelOptional.get();
+
+        hotelToBeUpdated.setName(hotelDto.getName());
+        hotelToBeUpdated.setAttachments(hotelDto.getAttachments());
+        hotelToBeUpdated.setStatus(hotelDto.getStatus());
+        hotelToBeUpdated.setAddress(hotelDto.getAddress());
+        hotelToBeUpdated.setBedRooms(hotelDto.getBedRooms());
+        hotelToBeUpdated.setIsApproved(hotelDto.getIsApproved());
+
+
+        return EntityMapping.hotelToHotelDTO(hotelRepository.save(hotelToBeUpdated));
     }
+    @Override @Transactional
+    public boolean deleteHotel(Long hotelId){
+        Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+
+        if( hotel.isEmpty() )
+            return false;
+
+         hotelRepository.deleteById(hotelId);
+
+         return true;
+    }
+
 }
