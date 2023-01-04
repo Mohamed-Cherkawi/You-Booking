@@ -3,6 +3,7 @@ package org.youbooking.root.controllers;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,11 +25,11 @@ public class HotelOwnerController {
     }
 
     @GetMapping("/fetching/track-id/{hotelId}")
-    public ResponseEntity<HotelDto> getCreatedHotelByOwnerById(@PathVariable("hotelId") Long id){
+    public ResponseEntity<HotelDto> getCreatedHotelByOwnerByIdApi(@PathVariable("hotelId") Long id){
         return ResponseEntity.ok(hotelService.getHotel(id));
     }
     @GetMapping("/fetching-all")
-    public ResponseEntity<Set<HotelDto>> getAllCreatedHotelsByOwner(){
+    public ResponseEntity<Set<HotelDto>> getAllCreatedHotelsByOwnerApi(){
         Set<HotelDto> hotels = hotelService.getAllHotels();
         if( hotels.isEmpty() )
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -36,7 +37,12 @@ public class HotelOwnerController {
         return ResponseEntity.ok(hotels);
     }
     @PostMapping("/add-new-hotel")
-    public ResponseEntity<HotelDto> addHotelApi(@RequestBody HotelDto hotel){
+    public ResponseEntity<HotelDto> addHotelCreatedByOwnerApi(@RequestBody HotelDto hotel){
         return new ResponseEntity<>(hotelService.createHotel(hotel), HttpStatus.CREATED);
+    }
+    @DeleteMapping("/delete-hotel/{hotelId}")
+    public ResponseEntity<Void> deleteHotelCreatedByOwnerApi(@PathVariable("hotelId") Long id){
+        hotelService.deleteHotel(id);
+        return ResponseEntity.noContent().build();
     }
 }
