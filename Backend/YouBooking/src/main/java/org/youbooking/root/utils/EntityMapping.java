@@ -1,7 +1,9 @@
 package org.youbooking.root.utils;
 
 import org.modelmapper.ModelMapper;
+import org.youbooking.root.entities.BedRoom;
 import org.youbooking.root.entities.Hotel;
+import org.youbooking.root.services.dtos.BedRoomDto;
 import org.youbooking.root.services.dtos.HotelDto;
 
 public class EntityMapping {
@@ -14,5 +16,13 @@ public class EntityMapping {
     }
     public static Hotel hotelDTOToHotel(HotelDto hotelDto) {
         return modelMapper.map(hotelDto, Hotel.class);
+    }
+
+
+    public static BedRoomDto bedRoomToBedRoomDTO(BedRoom bedRoom) {
+        return modelMapper.map(bedRoom, BedRoomDto.class);
+    }
+    public static BedRoom bedRoomDTOToBedRoom(BedRoomDto bedRoomDto) {
+        return modelMapper.map(bedRoomDto, BedRoom.class);
     }
 }
