@@ -1,7 +1,9 @@
 package org.youbooking.root.utils;
 
+import lombok.Getter;
 import org.youbooking.root.enums.BedRoomStateEnum;
 
+@Getter
 public class StatusMapping<T>{
     private T id;
 
@@ -9,12 +11,4 @@ public class StatusMapping<T>{
 
     private StatusMapping() {}
 
-
-    public T getId() {
-        return id;
-    }
-
-    public BedRoomStateEnum getStatus() {
-        return status;
-    }
 }
