@@ -10,8 +10,8 @@ import org.youbooking.root.entities.Attachment;
 import org.youbooking.root.entities.BedRoom;
 import org.youbooking.root.enums.HotelStateEnum;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import java.util.Set;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
