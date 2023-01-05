@@ -23,7 +23,7 @@ import org.youbooking.root.repositories.RoleRepository;
 import org.youbooking.root.repositories.UserRepository;
 
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
