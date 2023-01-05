@@ -11,7 +11,7 @@ import org.youbooking.root.services.dtos.HotelDto;
 import org.youbooking.root.services.interfaces.HotelServiceInterface;
 import org.youbooking.root.utils.EntityMapping;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
