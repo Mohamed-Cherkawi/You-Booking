@@ -1,8 +1,6 @@
 package org.youbooking.root.services.dtos;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.youbooking.root.entities.Address;
 import org.youbooking.root.entities.AppUser;
@@ -14,7 +12,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import java.util.Set;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Getter @Setter
 public class HotelDto  {
     private Long id;
     private String name;
