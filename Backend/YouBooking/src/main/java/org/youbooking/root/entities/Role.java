@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 
 
 @Entity @Getter @ToString @NoArgsConstructor
-@Table(name = "app_role")
+@Table(name = "_role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
