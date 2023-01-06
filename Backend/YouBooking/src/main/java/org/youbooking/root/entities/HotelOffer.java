@@ -13,8 +13,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -40,9 +38,5 @@ public class HotelOffer {
 
     @Enumerated(EnumType.STRING)
     private HotelOfferStateEnum status;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
-    private AppUser user;
 
 }
