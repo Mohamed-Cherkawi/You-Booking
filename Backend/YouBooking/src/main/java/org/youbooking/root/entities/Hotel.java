@@ -41,7 +41,7 @@ public class Hotel{
     @ToString.Exclude
     private Set<BedRoom> bedRooms = new LinkedHashSet<>();
 
-    @OneToOne(cascade = {CascadeType.PERSIST , CascadeType.REMOVE , CascadeType.MERGE}, optional = false)
+    @OneToOne(cascade = {CascadeType.PERSIST , CascadeType.REMOVE , CascadeType.MERGE})
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
@@ -57,7 +57,7 @@ public class Hotel{
     @Column(name = "is_approved")
     private Boolean isApproved = null;
 
-    @ManyToOne(optional = false , cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "owner_id", nullable = false)
     private AppUser owner;
 

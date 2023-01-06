@@ -25,7 +25,7 @@ import java.util.Set;
 
 
 @Entity @Getter @Setter @ToString @NoArgsConstructor
-@Table(name = "app_user")
+@Table(name = "_user")
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
@@ -52,20 +52,23 @@ public class AppUser {
     @Column(nullable = false)
     private AvailabilityStateEnum status = AvailabilityStateEnum.ONLINE;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST)
     @ToString.Exclude
+    @JsonIgnore
     private Set<HotelOffer> hotelOffers = null;
 
-    @OneToMany(mappedBy = "reservedBy", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "reservedBy", cascade = CascadeType.PERSIST , fetch = FetchType.LAZY)
     @ToString.Exclude
+    @JsonIgnore
     private Set<Reservation> reservations = null;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @ToString.Exclude
+    @JsonIgnore
     private Set<Hotel> createdHotels = null;
 
     public AppUser(String username, String password, String name, String phone, String cin, Role role) {
@@ -77,8 +80,4 @@ public class AppUser {
         this.role = role;
     }
 
-    @JsonIgnore
-    public Set<Hotel> getCreatedHotels() {
-        return createdHotels;
-    }
 }

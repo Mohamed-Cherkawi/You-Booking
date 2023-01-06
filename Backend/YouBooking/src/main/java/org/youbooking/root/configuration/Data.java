@@ -1,6 +1,6 @@
 package org.youbooking.root.configuration;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.youbooking.root.entities.Address;
@@ -27,7 +27,7 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
-@Configuration @Transactional @AllArgsConstructor
+@Configuration @Transactional @RequiredArgsConstructor
 public class Data {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
@@ -44,7 +44,7 @@ public class Data {
         Role hotelOwnerRole = new Role(RoleEnum.HOTEL_OWNER);
         roleRepository.saveAll(List.of(adminRole,clientRole,hotelOwnerRole));
 
-        AppUser user = new AppUser("simoxCoder2002","pass123","Mohamed Cherkaoui","0619377346","EE773HH",hotelOwnerRole);
+        AppUser user = new AppUser("simoxCoder2002","pass123","Mohamed Cherkaoui","0619377346","EE773HH",clientRole);
         userRepository.save(user);
 
         BedRoom bedRoom1= new BedRoom("A1",20F, BedRoomStateEnum.AVAILABLE);

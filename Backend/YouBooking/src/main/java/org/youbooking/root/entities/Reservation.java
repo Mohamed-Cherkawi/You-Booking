@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +15,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity @Getter @Setter @ToString
@@ -29,9 +27,9 @@ public class Reservation {
     private Long id;
 
     @ToString.Exclude
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany
     @JoinColumn(name = "reservation_id")
-    private Set<BedRoom> reservedBedRooms = new LinkedHashSet<>();
+    private Set<BedRoom> reservedBedRooms ;
 
     @Column(name = "total_price", nullable = false)
     private Float totalPrice;
@@ -42,7 +40,7 @@ public class Reservation {
     @Column(name = "end_date", nullable = false)
     private LocalDateTime endDate;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "reserved_by", nullable = false)
     private AppUser reservedBy;
 
