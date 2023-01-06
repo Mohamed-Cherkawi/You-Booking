@@ -1,6 +1,6 @@
 package org.youbooking.root.services.implementations;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.youbooking.root.entities.Hotel;
 import org.youbooking.root.entities.Role;
@@ -18,13 +18,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-@Service("hotel-service") @AllArgsConstructor
+@Service("hotel-service") @RequiredArgsConstructor
 public class HotelService implements HotelServiceInterface {
     private final HotelRepository hotelRepository;
     private final RoleRepository roleRepository;
 
 
-    @Override
+    @Override // TODO: Pageable
     public Set<HotelDto> getAllHotels(){
         List<Hotel> hotels = hotelRepository.findAll();
         return hotels.stream()
@@ -34,7 +34,8 @@ public class HotelService implements HotelServiceInterface {
     @Override
     public HotelDto getHotel(Long id){
         Optional<Hotel> hotelOptional = hotelRepository.findById(id);
-        return hotelOptional.map(EntityMapping::hotelToHotelDTO).orElse(null);
+        return hotelOptional.map(EntityMapping::hotelToHotelDTO)
+                .orElse(null);
     }
     @Override @Transactional
     public HotelDto createHotel(HotelDto hotel) {
@@ -51,9 +52,9 @@ public class HotelService implements HotelServiceInterface {
     public HotelDto updateHotel(HotelDto hotelDto) {
         Optional<Hotel> hotelOptional = hotelRepository.findById(hotelDto.getId());
 
-        if( hotelOptional.isEmpty() ){
+        if( hotelOptional.isEmpty() )
             return null;
-        }
+
         Hotel hotelToBeUpdated = hotelOptional.get();
 
         hotelToBeUpdated.setName(hotelDto.getName());
@@ -68,14 +69,13 @@ public class HotelService implements HotelServiceInterface {
     }
     @Override @Transactional
     public boolean deleteHotel(Long hotelId){
-        Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+        Optional<Hotel> hotelOptional = hotelRepository.findById(hotelId);
 
-        if( hotel.isEmpty() )
+        if( hotelOptional.isEmpty() )
             return false;
 
          hotelRepository.deleteById(hotelId);
 
          return true;
     }
-
 }
