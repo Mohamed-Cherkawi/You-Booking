@@ -1,7 +1,9 @@
 package org.youbooking.root.entities;
 
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.youbooking.root.enums.BedRoomStateEnum;
 
@@ -18,7 +20,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.Set;
 
-@Entity @ToString @NoArgsConstructor
+@Entity @Getter @Setter @ToString @NoArgsConstructor
 @Table(name = "bed_room")
 public class BedRoom {
     @Id
@@ -31,7 +33,6 @@ public class BedRoom {
     private String reference;
 
     @OneToMany(cascade = {CascadeType.PERSIST , CascadeType.MERGE})
-    @ToString.Exclude
     private Set<Bed> beds ;
 
     @Column(nullable = false)
@@ -44,42 +45,6 @@ public class BedRoom {
     public BedRoom(String reference, Float price, BedRoomStateEnum status) {
         this.reference = reference;
         this.price = price;
-        this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getReference() {
-        return reference;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
-    public Set<Bed> getBeds() {
-        return beds;
-    }
-
-    public void setBeds(Set<Bed> beds) {
-        this.beds = beds;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public BedRoomStateEnum getStatus() {
-        return status;
-    }
-
-    public void setStatus(BedRoomStateEnum status) {
         this.status = status;
     }
 }

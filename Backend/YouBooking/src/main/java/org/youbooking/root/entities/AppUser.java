@@ -29,7 +29,7 @@ import java.util.Set;
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
-    @SequenceGenerator(name = "app_user_seq",allocationSize = 1)
+    @SequenceGenerator(name = "app_user_seq", allocationSize = 1)
     @Column(nullable = false)
     private Long id;
 
@@ -61,12 +61,20 @@ public class AppUser {
     @JsonIgnore
     private Set<HotelOffer> hotelOffers = null;
 
-    @OneToMany(mappedBy = "reservedBy", cascade = CascadeType.PERSIST , fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "reservedBy",
+            cascade = CascadeType.PERSIST ,
+            fetch = FetchType.LAZY
+    )
     @ToString.Exclude
     @JsonIgnore
     private Set<Reservation> reservations = null;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "owner",
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY
+    )
     @ToString.Exclude
     @JsonIgnore
     private Set<Hotel> createdHotels = null;

@@ -48,7 +48,7 @@ public class Data {
         userRepository.save(user);
 
         BedRoom bedRoom1= new BedRoom("A1",20F, BedRoomStateEnum.AVAILABLE);
-        BedRoom bedRoom2= new BedRoom("B1",25F, BedRoomStateEnum.RESERVED);
+        BedRoom bedRoom2= new BedRoom("B1",25F, BedRoomStateEnum.AVAILABLE);
 
         Bed bed1 = new Bed(BedTypeEnum.EXTRA_LARGE_DOUBLE);
         Bed bed2 = new Bed(BedTypeEnum.STANDARD_SINGLE);

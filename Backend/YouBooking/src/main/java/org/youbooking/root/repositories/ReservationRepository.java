@@ -5,4 +5,4 @@ import org.springframework.stereotype.Repository;
 import org.youbooking.root.entities.Reservation;
 
 @Repository
-public interface ReservationRepository extends JpaRepository<Reservation,Long> { }
+public interface ReservationRepository extends JpaRepository<Reservation,Long> {}

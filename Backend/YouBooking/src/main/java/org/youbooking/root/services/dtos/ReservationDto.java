@@ -2,19 +2,21 @@ package org.youbooking.root.services.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.youbooking.root.entities.AppUser;
-import org.youbooking.root.entities.BedRoom;
+import org.youbooking.root.entities.Hotel;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class ReservationDto {
 
     private Long id;
-    private Set<BedRoom> reservedBedRooms;
+    private Set<BedRoomDto> reservedBedRooms;
     private Float totalPrice;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private AppUser reservedBy;
+    private Hotel hotel;
 }

@@ -3,7 +3,10 @@ package org.youbooking.root.services.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.youbooking.root.entities.BedRoom;
 import org.youbooking.root.entities.Reservation;
+import org.youbooking.root.enums.BedRoomStateEnum;
+import org.youbooking.root.repositories.BedRoomRepository;
 import org.youbooking.root.repositories.ReservationRepository;
 import org.youbooking.root.services.dtos.ReservationDto;
 import org.youbooking.root.services.interfaces.ReservationServiceInterface;
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
 @Service("reservation-service") @RequiredArgsConstructor
 public class ReservationService implements ReservationServiceInterface {
     private final ReservationRepository reservationRepository;
+    private final BedRoomRepository bedRoomRepository;
 
 
     @Override // TODO: Pageable
@@ -36,6 +40,13 @@ public class ReservationService implements ReservationServiceInterface {
 
     @Override @Transactional
     public ReservationDto createReservation(ReservationDto reservationDto) {
+        reservationDto.getReservedBedRooms().stream()
+                .map(bedRoom -> bedRoomRepository.findById(bedRoom.getId()).orElseThrow())
+                .forEach(bedRoom -> {
+                    bedRoom.setStatus(BedRoomStateEnum.RESERVED);
+                    bedRoomRepository.save(bedRoom);
+                });
+
         Reservation reservation = EntityMapping.reservationDtoToReservation(reservationDto);
 
         return EntityMapping.reservationToReservationDto(reservationRepository.save(reservation));
@@ -48,9 +59,13 @@ public class ReservationService implements ReservationServiceInterface {
         if( reservationOptional.isEmpty() )
             return null;
 
+        Set<BedRoom> bedRooms = reservationDto.getReservedBedRooms().stream()
+                .map(EntityMapping::bedRoomDTOToBedRoom)
+                .collect(Collectors.toSet());
+
         Reservation reservationToBeUpdated = reservationOptional.get();
 
-        reservationToBeUpdated.setReservedBedRooms(reservationDto.getReservedBedRooms());
+        reservationToBeUpdated.setReservedBedRooms(bedRooms);
         reservationToBeUpdated.setTotalPrice(reservationDto.getTotalPrice());
         reservationToBeUpdated.setStartDate(reservationDto.getStartDate());
         reservationToBeUpdated.setEndDate(reservationDto.getEndDate());

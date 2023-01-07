@@ -1,5 +1,6 @@
 package org.youbooking.root.entities;
 
+import jakarta.persistence.CascadeType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,7 +15,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity @Getter @Setter @ToString
@@ -26,8 +28,7 @@ public class Reservation {
     @Column(nullable = false)
     private Long id;
 
-    @ToString.Exclude
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "reservation_id")
     private Set<BedRoom> reservedBedRooms ;
 
@@ -35,13 +36,17 @@ public class Reservation {
     private Float totalPrice;
 
     @Column(name = "start_date", nullable = false)
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @ManyToOne
     @JoinColumn(name = "reserved_by", nullable = false)
     private AppUser reservedBy;
+
+    @ManyToOne
+    @JoinColumn(name = "hotel_id", nullable = false)
+    private Hotel hotel;
 
 }

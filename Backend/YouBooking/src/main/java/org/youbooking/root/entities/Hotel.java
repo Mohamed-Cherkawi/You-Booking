@@ -1,5 +1,7 @@
 package org.youbooking.root.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.FetchType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +22,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import java.util.LinkedHashSet;
+
 import java.util.Set;
 
 
@@ -36,18 +38,37 @@ public class Hotel{
     @Column(nullable = false, length = 50)
     private String name;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.MERGE})
+    @OneToMany(
+            cascade = {CascadeType.PERSIST,
+                    CascadeType.REMOVE,
+                    CascadeType.MERGE}
+    )
     @JoinColumn(name = "hotel_id")
-    @ToString.Exclude
-    private Set<BedRoom> bedRooms = new LinkedHashSet<>();
+    private Set<BedRoom> bedRooms ;
 
-    @OneToOne(cascade = {CascadeType.PERSIST , CascadeType.REMOVE , CascadeType.MERGE})
+    @OneToOne(
+            cascade = {CascadeType.PERSIST ,
+            CascadeType.REMOVE ,
+            CascadeType.MERGE}
+    )
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    @OneToMany(cascade = {CascadeType.PERSIST , CascadeType.REMOVE , CascadeType.MERGE})
-    @JoinColumn(name = "hotel_id")
     @ToString.Exclude
+    @OneToMany(
+            mappedBy = "hotel" ,
+            cascade = CascadeType.REMOVE ,
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
+    private Set<Reservation> reservations = null;
+
+    @OneToMany(
+            cascade = {CascadeType.PERSIST ,
+                    CascadeType.REMOVE ,
+                    CascadeType.MERGE}
+    )
+    @JoinColumn(name = "hotel_id")
     private Set<Attachment> attachments ;
 
     @Enumerated(EnumType.STRING)
