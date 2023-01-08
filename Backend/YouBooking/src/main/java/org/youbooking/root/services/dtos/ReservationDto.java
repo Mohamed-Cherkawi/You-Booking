@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.youbooking.root.entities.AppUser;
-import org.youbooking.root.entities.Hotel;
+import org.youbooking.root.enums.AcceptanceStateEnum;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -17,6 +17,6 @@ public class ReservationDto {
     private Float totalPrice;
     private LocalDate startDate;
     private LocalDate endDate;
+    private AcceptanceStateEnum status;
     private AppUser reservedBy;
-    private Hotel hotel;
 }
