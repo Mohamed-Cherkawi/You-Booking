@@ -1,7 +1,5 @@
 package org.youbooking.root.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.FetchType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -54,14 +52,8 @@ public class Hotel{
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    @ToString.Exclude
-    @OneToMany(
-            mappedBy = "hotel" ,
-            cascade = CascadeType.REMOVE ,
-            fetch = FetchType.LAZY
-    )
-    @JsonIgnore
-    private Set<Reservation> reservations = null;
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private Set<Reservation> reservations ;
 
     @OneToMany(
             cascade = {CascadeType.PERSIST ,
@@ -76,7 +68,7 @@ public class Hotel{
     private HotelStateEnum status;
 
     @Column(name = "is_approved")
-    private Boolean isApproved = null;
+    private Boolean isApproved ;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "owner_id", nullable = false)
