@@ -27,11 +27,11 @@ public class ClientController {
     }
 
     @GetMapping("/fetching/track-id/{reservationId}")
-    public ResponseEntity<ReservationDto> getCreatedReservationByClientByIdApi(@PathVariable("reservationId") Long id) {
+    public ResponseEntity<Object> getCreatedReservationByClientByIdApi(@PathVariable("reservationId") Long id) {
         ReservationDto reservation = reservationService.getReservation(id);
 
         return (reservation == null)
-                ? ResponseEntity.status(HttpStatus.GONE).build()
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't find the hotel with the id : " + id + "try again")
                 : ResponseEntity.ok(reservation);
     }
     @GetMapping("/fetching-all")
@@ -51,13 +51,13 @@ public class ClientController {
         ReservationDto reservation = reservationService.updateReservation(reservationDto);
 
         return (reservation == null)
-                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't update the reservation with the id : " + reservationDto.getId() + " because it was not found ")
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't update the reservation with the id : " + reservationDto.getId() + " because it was not found !")
                 : ResponseEntity.ok(reservation);
     }
     @DeleteMapping("/deleting")
     public ResponseEntity<String> deleteReservationCreatedByClientApi(@RequestBody IdClassMapper<Long> idClassMapper) {
         return ( reservationService.deleteReservation(idClassMapper.getId()) )
                 ? ResponseEntity.ok("The Reservation With the id " + idClassMapper.getId() + " was deleted successfully")
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't delete the reservation with the id : " + idClassMapper.getId() + " because it was not found");
     }
 }
