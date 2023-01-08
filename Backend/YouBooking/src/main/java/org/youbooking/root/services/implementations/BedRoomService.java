@@ -3,6 +3,7 @@ package org.youbooking.root.services.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.youbooking.root.entities.BedRoom;
+import org.youbooking.root.enums.BedRoomStateEnum;
 import org.youbooking.root.repositories.BedRoomRepository;
 import org.youbooking.root.services.dtos.BedRoomDto;
 import org.youbooking.root.services.interfaces.BedRoomServiceInterface;
@@ -17,7 +18,7 @@ public class BedRoomService implements BedRoomServiceInterface {
 
 
     @Override
-    public BedRoomDto updateStatus(StatusMapping<Long> statusMapping) {
+    public BedRoomDto updateStatus(StatusMapping<Long, BedRoomStateEnum> statusMapping) {
         Optional<BedRoom> bedRoom = bedRoomRepository.findById(statusMapping.getId());
 
         if( bedRoom.isEmpty() )
