@@ -37,7 +37,7 @@ public class Data {
     private final AttachmentRepository attachmentRepository;
     private final HotelRepository hotelRepository;
 
-    @Bean
+    @Bean @Transactional
     public void insertSomeData(){
         Role adminRole = new Role(RoleEnum.ADMIN);
         Role clientRole = new Role(RoleEnum.CLIENT);
@@ -72,5 +72,6 @@ public class Data {
 
         hotelRepository.save(hotel);
 
+        //System.out.println(hotelRepository.findByBedRooms_Id(bedRooms.get(0).getId()));
     }
 }
