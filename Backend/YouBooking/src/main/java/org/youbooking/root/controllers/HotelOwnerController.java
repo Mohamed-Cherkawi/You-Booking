@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.youbooking.root.enums.AcceptanceStateEnum;
+import org.youbooking.root.enums.BedRoomStateEnum;
 import org.youbooking.root.services.dtos.BedRoomDto;
 import org.youbooking.root.services.dtos.HotelDto;
+import org.youbooking.root.services.dtos.ReservationDto;
 import org.youbooking.root.services.implementations.BedRoomService;
 import org.youbooking.root.services.implementations.HotelService;
+import org.youbooking.root.services.implementations.ReservationService;
 import org.youbooking.root.utils.IdClassMapper;
 import org.youbooking.root.utils.StatusMapping;
 
@@ -27,18 +31,22 @@ import java.util.Set;
 public class HotelOwnerController {
     private final HotelService hotelService;
     private final BedRoomService bedRoomService;
+    private final ReservationService reservationService;
 
-    public HotelOwnerController(@Qualifier("hotel-service") HotelService hotelService, @Qualifier("bed-room-service") BedRoomService bedRoomService) {
+    public HotelOwnerController(@Qualifier("hotel-service") HotelService hotelService,
+                                @Qualifier("bed-room-service") BedRoomService bedRoomService,
+                                @Qualifier("reservation-service") ReservationService reservationService) {
         this.hotelService = hotelService;
         this.bedRoomService = bedRoomService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/fetching/track-id/{hotelId}")
-    public ResponseEntity<HotelDto> getCreatedHotelByOwnerByIdApi(@PathVariable("hotelId") Long id){
+    public ResponseEntity<Object> getCreatedHotelByOwnerByIdApi(@PathVariable("hotelId") Long id){
         HotelDto hotel = hotelService.getHotel(id);
 
         return (hotel == null)
-                ? ResponseEntity.status(HttpStatus.GONE).build()
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't find the hotel with the id : "+ id + " try again")
                 : ResponseEntity.ok(hotel);
     }
     @GetMapping("/fetching-all")
@@ -62,12 +70,20 @@ public class HotelOwnerController {
                 : ResponseEntity.ok(hotel);
     }
     @PatchMapping("/updating-bed-room-status")
-    public ResponseEntity<Object> updateBedRoomAvailabilityStatusApi(@RequestBody StatusMapping<Long> statusMapping){
+    public ResponseEntity<Object> updateBedRoomAvailabilityStatusApi(@RequestBody StatusMapping<Long, BedRoomStateEnum> statusMapping){
         BedRoomDto bedRoom = bedRoomService.updateStatus(statusMapping);
 
         return (bedRoom == null)
-                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't update the status of the bed room with the id : " + statusMapping.getId() + " because it was not found ")
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't update the status of the bed room with the id : " + statusMapping.getId() + " because it was not found !")
                 : ResponseEntity.ok(bedRoom);
+    }
+    @PatchMapping("/updating-reservation-status")
+    public ResponseEntity<Object> updateReservationAcceptanceStatusApi(@RequestBody StatusMapping<Long, AcceptanceStateEnum> statusMapping){
+        ReservationDto reservation = reservationService.updateReservationStatus(statusMapping);
+
+        return (reservation == null)
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't update the status of the reservation with the id : " + statusMapping.getId() + " because it was not found !")
+                : ResponseEntity.ok(reservation);
     }
     @DeleteMapping("/deleting")
     public ResponseEntity<String> deleteHotelCreatedByOwnerApi(@RequestBody IdClassMapper<Long> idClassMapper){
