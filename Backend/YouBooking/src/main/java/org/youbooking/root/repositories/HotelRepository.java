@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository;
 import org.youbooking.root.entities.Hotel;
 
 @Repository
-public interface HotelRepository extends JpaRepository<Hotel,Long> { }
+public interface HotelRepository extends JpaRepository<Hotel,Long> {
+    Hotel findByBedRoomsId(Long bedRoomId);
+}
