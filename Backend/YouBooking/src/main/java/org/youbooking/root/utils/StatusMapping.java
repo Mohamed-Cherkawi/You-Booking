@@ -1,14 +1,13 @@
 package org.youbooking.root.utils;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.youbooking.root.enums.BedRoomStateEnum;
 
-@Getter
-public class StatusMapping<T>{
+@Getter @AllArgsConstructor
+public class StatusMapping<T,E extends Enum<E>> {
     private T id;
 
-    private BedRoomStateEnum status;
+    private E status;
 
     private StatusMapping() {}
-
 }
