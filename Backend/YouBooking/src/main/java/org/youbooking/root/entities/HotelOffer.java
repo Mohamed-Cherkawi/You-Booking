@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.youbooking.root.enums.HotelOfferStateEnum;
+import org.youbooking.root.enums.AcceptanceStateEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,6 +37,6 @@ public class HotelOffer {
     private LocalDateTime creationDate;
 
     @Enumerated(EnumType.STRING)
-    private HotelOfferStateEnum status;
+    private AcceptanceStateEnum status;
 
 }
