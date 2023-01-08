@@ -5,12 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.youbooking.root.entities.BedRoom;
 import org.youbooking.root.entities.Reservation;
+import org.youbooking.root.enums.AcceptanceStateEnum;
 import org.youbooking.root.enums.BedRoomStateEnum;
 import org.youbooking.root.repositories.BedRoomRepository;
 import org.youbooking.root.repositories.ReservationRepository;
 import org.youbooking.root.services.dtos.ReservationDto;
 import org.youbooking.root.services.interfaces.ReservationServiceInterface;
 import org.youbooking.root.utils.EntityMapping;
+import org.youbooking.root.utils.StatusMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +42,9 @@ public class ReservationService implements ReservationServiceInterface {
 
     @Override @Transactional
     public ReservationDto createReservation(ReservationDto reservationDto) {
+        // Setting the reservation status which is PENDING by default
+        reservationDto.setStatus(AcceptanceStateEnum.PENDING);
+        // Setting the bedRooms reserved status to RESERVED by default
         reservationDto.getReservedBedRooms().stream()
                 .map(bedRoom -> bedRoomRepository.findById(bedRoom.getId()).orElseThrow())
                 .forEach(bedRoom -> {
@@ -71,6 +76,20 @@ public class ReservationService implements ReservationServiceInterface {
         reservationToBeUpdated.setEndDate(reservationDto.getEndDate());
 
         return EntityMapping.reservationToReservationDto(reservationRepository.save(reservationToBeUpdated));
+    }
+
+    @Override
+    public ReservationDto updateReservationStatus(StatusMapping<Long, AcceptanceStateEnum> statusMapping) {
+        Optional<Reservation> reservationOptional = reservationRepository.findById(statusMapping.getId());
+
+        if(reservationOptional.isEmpty())
+            return null;
+
+        Reservation reservation = reservationOptional.get();
+
+        reservation.setStatus(statusMapping.getStatus());
+
+        return EntityMapping.reservationToReservationDto(reservationRepository.save(reservation));
     }
 
     @Override @Transactional
