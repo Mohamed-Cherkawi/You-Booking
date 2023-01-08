@@ -1,6 +1,8 @@
 package org.youbooking.root.entities;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import org.youbooking.root.enums.AcceptanceStateEnum;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -41,12 +44,12 @@ public class Reservation {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AcceptanceStateEnum status ;
+
     @ManyToOne
     @JoinColumn(name = "reserved_by", nullable = false)
     private AppUser reservedBy;
-
-    @ManyToOne
-    @JoinColumn(name = "hotel_id", nullable = false)
-    private Hotel hotel;
 
 }
