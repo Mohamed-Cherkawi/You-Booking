@@ -1,6 +1,6 @@
 package org.youbooking.root.enums;
 
-public enum HotelOfferStateEnum {
+public enum AcceptanceStateEnum {
     PENDING ,
     ACCEPTED ,
     REJECTED
