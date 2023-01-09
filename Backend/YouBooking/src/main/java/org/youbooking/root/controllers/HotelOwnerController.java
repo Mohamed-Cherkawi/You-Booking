@@ -1,6 +1,6 @@
 package org.youbooking.root.controllers;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,29 +17,22 @@ import org.youbooking.root.enums.BedRoomStateEnum;
 import org.youbooking.root.services.dtos.BedRoomDto;
 import org.youbooking.root.services.dtos.HotelDto;
 import org.youbooking.root.services.dtos.ReservationDto;
-import org.youbooking.root.services.implementations.BedRoomService;
-import org.youbooking.root.services.implementations.HotelService;
-import org.youbooking.root.services.implementations.ReservationService;
+import org.youbooking.root.services.interfaces.BedRoomServiceInterface;
+import org.youbooking.root.services.interfaces.HotelServiceInterface;
+import org.youbooking.root.services.interfaces.ReservationServiceInterface;
 import org.youbooking.root.utils.IdClassMapper;
 import org.youbooking.root.utils.StatusMapping;
 
 import java.util.Set;
 
 
-@RestController
+@RestController @RequiredArgsConstructor
 @RequestMapping("/api/hotel/manager")
 public class HotelOwnerController {
-    private final HotelService hotelService;
-    private final BedRoomService bedRoomService;
-    private final ReservationService reservationService;
+    private final HotelServiceInterface hotelService;
+    private final BedRoomServiceInterface bedRoomService;
+    private final ReservationServiceInterface reservationService;
 
-    public HotelOwnerController(@Qualifier("hotel-service") HotelService hotelService,
-                                @Qualifier("bed-room-service") BedRoomService bedRoomService,
-                                @Qualifier("reservation-service") ReservationService reservationService) {
-        this.hotelService = hotelService;
-        this.bedRoomService = bedRoomService;
-        this.reservationService = reservationService;
-    }
 
     @GetMapping("/fetching/track-id/{hotelId}")
     public ResponseEntity<Object> getCreatedHotelByOwnerByIdApi(@PathVariable("hotelId") Long id){
