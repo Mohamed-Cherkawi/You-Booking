@@ -12,7 +12,7 @@ import org.youbooking.root.utils.StatusMapping;
 
 import java.util.Optional;
 
-@Service("bed-room-service") @RequiredArgsConstructor
+@Service @RequiredArgsConstructor
 public class BedRoomService implements BedRoomServiceInterface {
     private final BedRoomRepository bedRoomRepository;
 
