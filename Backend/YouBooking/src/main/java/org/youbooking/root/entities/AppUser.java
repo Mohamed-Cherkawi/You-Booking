@@ -1,10 +1,15 @@
 package org.youbooking.root.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.youbooking.root.enums.AvailabilityStateEnum;
 
 import jakarta.persistence.CascadeType;
@@ -21,12 +26,15 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
+
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 
-@Entity @Getter @Setter @ToString @NoArgsConstructor
+@Entity @Builder @Getter @Setter @ToString @NoArgsConstructor @AllArgsConstructor
 @Table(name = "_user")
-public class AppUser {
+public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
     @SequenceGenerator(name = "app_user_seq", allocationSize = 1)
@@ -53,7 +61,7 @@ public class AppUser {
     private AvailabilityStateEnum status = AvailabilityStateEnum.ONLINE;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @OneToMany(cascade = CascadeType.PERSIST)
@@ -88,4 +96,28 @@ public class AppUser {
         this.role = role;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.getName().name()));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
