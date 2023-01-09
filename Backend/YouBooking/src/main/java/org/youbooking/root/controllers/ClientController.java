@@ -1,6 +1,6 @@
 package org.youbooking.root.controllers;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,19 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.youbooking.root.services.dtos.ReservationDto;
-import org.youbooking.root.services.implementations.ReservationService;
+import org.youbooking.root.services.interfaces.ReservationServiceInterface;
 import org.youbooking.root.utils.IdClassMapper;
 
 import java.util.Set;
 
-@RestController
+@RestController @RequiredArgsConstructor
 @RequestMapping("/api/reservation/client")
 public class ClientController {
-    private final ReservationService reservationService;
+    private final ReservationServiceInterface reservationService;
 
-    public ClientController(@Qualifier("reservation-service") ReservationService reservationService) {
-        this.reservationService = reservationService;
-    }
 
     @GetMapping("/fetching/track-id/{reservationId}")
     public ResponseEntity<Object> getCreatedReservationByClientByIdApi(@PathVariable("reservationId") Long id) {
