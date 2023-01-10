@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-@Service("hotel-service") @RequiredArgsConstructor
+@Service @RequiredArgsConstructor
 public class HotelService implements HotelServiceInterface {
     private final HotelRepository hotelRepository;
     private final RoleRepository roleRepository;
