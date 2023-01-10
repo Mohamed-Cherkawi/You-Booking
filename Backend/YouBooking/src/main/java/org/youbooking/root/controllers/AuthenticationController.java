@@ -25,9 +25,10 @@ public class AuthenticationController {
             : ResponseEntity.ok(authResponse);
     }
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequestDto request
-    ) {
-        return ResponseEntity.ok(service.authenticate(request));
+     public ResponseEntity<Object> authenticate(@RequestBody AuthenticationRequestDto request) {
+        AuthenticationResponse authResponse = service.authenticate(request);
+        return ( authResponse == null )
+            ? ResponseEntity.status(HttpStatus.FORBIDDEN).body("You can't reach the application for now because the admin has banned you")
+            : ResponseEntity.ok(authResponse);
     }
 }
