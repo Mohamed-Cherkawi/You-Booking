@@ -9,5 +9,5 @@ public interface HotelServiceInterface {
     HotelDto getHotel(Long id);
     HotelDto createHotel(HotelDto hotel);
     HotelDto updateHotel(HotelDto hotelDto);
-    boolean deleteHotel(Long hotelId);
+    void deleteHotel(Long hotelId);
 }
