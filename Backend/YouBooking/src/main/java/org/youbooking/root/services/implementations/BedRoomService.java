@@ -1,5 +1,6 @@
 package org.youbooking.root.services.implementations;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.youbooking.root.entities.BedRoom;
@@ -17,7 +18,7 @@ public class BedRoomService implements BedRoomServiceInterface {
     private final BedRoomRepository bedRoomRepository;
 
 
-    @Override
+    @Override @Transactional
     public BedRoomDto updateStatus(StatusMapping<Long, BedRoomStateEnum> statusMapping) {
         Optional<BedRoom> bedRoom = bedRoomRepository.findById(statusMapping.getId());
 
