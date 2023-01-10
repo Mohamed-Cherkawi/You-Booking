@@ -3,6 +3,7 @@ package org.youbooking.root.configuration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.youbooking.root.entities.Address;
 import org.youbooking.root.entities.AppUser;
 import org.youbooking.root.entities.Attachment;
@@ -36,6 +37,7 @@ public class Data {
     private final AddressRepository addressRepository;
     private final AttachmentRepository attachmentRepository;
     private final HotelRepository hotelRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Bean @Transactional
     public void insertSomeData(){
@@ -44,7 +46,7 @@ public class Data {
         Role hotelOwnerRole = new Role(RoleEnum.HOTEL_OWNER);
         roleRepository.saveAll(List.of(adminRole,clientRole,hotelOwnerRole));
 
-        AppUser user = new AppUser("simoxCoder2002","pass123","Mohamed Cherkaoui","0619377346","EE773HH",clientRole);
+        AppUser user = new AppUser("simoxCoder2002", passwordEncoder.encode("pass123@"), "Mohamed Cherkaoui","0619377346","EE773HH",clientRole);
         userRepository.save(user);
 
         BedRoom bedRoom1= new BedRoom("A1",20F, BedRoomStateEnum.AVAILABLE);
