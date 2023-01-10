@@ -16,8 +16,10 @@ import org.youbooking.root.enums.AcceptanceStateEnum;
 import org.youbooking.root.enums.BedRoomStateEnum;
 import org.youbooking.root.services.dtos.BedRoomDto;
 import org.youbooking.root.services.dtos.HotelDto;
+import org.youbooking.root.services.dtos.HotelOfferDto;
 import org.youbooking.root.services.dtos.ReservationDto;
 import org.youbooking.root.services.interfaces.BedRoomServiceInterface;
+import org.youbooking.root.services.interfaces.HotelOfferServiceInterface;
 import org.youbooking.root.services.interfaces.HotelServiceInterface;
 import org.youbooking.root.services.interfaces.ReservationServiceInterface;
 import org.youbooking.root.utils.IdClassMapper;
@@ -30,6 +32,7 @@ import java.util.Set;
 @RequestMapping("/api/hotel/manager")
 public class HotelOwnerController {
     private final HotelServiceInterface hotelService;
+    private final HotelOfferServiceInterface hotelOfferService;
     private final BedRoomServiceInterface bedRoomService;
     private final ReservationServiceInterface reservationService;
 
@@ -42,17 +45,34 @@ public class HotelOwnerController {
                 ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't find the hotel with the id : "+ id + " try again")
                 : ResponseEntity.ok(hotel);
     }
+    @GetMapping("/fetching/track-offer-id/{hotelOfferId}")
+    public ResponseEntity<Object> getCreatedHotelOfferByOwnerByIdApi(@PathVariable("hotelOfferId") Long id){
+        HotelOfferDto hotelOffer = hotelOfferService.getOfferById(id);
+
+        return (hotelOffer == null)
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("Can't find the hotel offer with the id : "+ id + " try again")
+                : ResponseEntity.ok(hotelOffer);
+    }
     @GetMapping("/fetching-all")
     public ResponseEntity<Set<HotelDto>> getAllCreatedHotelsByOwnerApi(){
-        Set<HotelDto> hotels = hotelService.getAllHotels();
 
-        return (hotels.isEmpty())
+        return (hotelService.getAllHotels().isEmpty())
                 ? ResponseEntity.status(HttpStatus.NO_CONTENT).build()
-                : ResponseEntity.ok(hotels);
+                : ResponseEntity.ok(hotelService.getAllHotels());
+    }
+    @GetMapping("/fetching-all-offers")
+    public ResponseEntity<Set<HotelOfferDto>> getAllCreatedHotelOffersByOwnerApi(){
+        return (hotelOfferService.getAllOffers().isEmpty())
+                ? ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+                : ResponseEntity.ok(hotelOfferService.getAllOffers());
     }
     @PostMapping("/adding-new")
     public ResponseEntity<HotelDto> addHotelCreatedByOwnerApi(@RequestBody HotelDto hotel){
-        return ResponseEntity.ok(hotelService.createHotel(hotel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.createHotel(hotel));
+    }
+    @PostMapping("/adding-new-request-offer")
+    public ResponseEntity<HotelOfferDto> addHotelOfferCreatedByOwnerApi(@RequestBody HotelOfferDto offer){
+        return ResponseEntity.status(HttpStatus.CREATED).body(hotelOfferService.saveOffer(offer));
     }
     @PutMapping("/updating")
     public ResponseEntity<Object> updateHotelCreatedByOwnerIdApi(@RequestBody HotelDto hotelDto){
@@ -80,8 +100,12 @@ public class HotelOwnerController {
     }
     @DeleteMapping("/deleting")
     public ResponseEntity<String> deleteHotelCreatedByOwnerApi(@RequestBody IdClassMapper<Long> idClassMapper){
-            return ( hotelService.deleteHotel(idClassMapper.getId()) )
-                    ? ResponseEntity.ok("The Hotel With the id " + idClassMapper.getId() + " was deleted successfully")
-                    : ResponseEntity.status(HttpStatus.NOT_FOUND).body("The Hotel With the id " + idClassMapper.getId() + " was not found !");
+        hotelService.deleteHotel(idClassMapper.getId());
+        return ResponseEntity.ok("The Hotel With the id " + idClassMapper.getId() + " was deleted successfully");
+    }
+    @DeleteMapping("/deleting-offer")
+    public ResponseEntity<String> deleteHotelOfferCreatedByOwnerApi(@RequestBody IdClassMapper<Long> idClassMapper){
+        hotelOfferService.deleteOffer(idClassMapper.getId());
+        return ResponseEntity.ok("The Hotel offer With the id " + idClassMapper.getId() + " was deleted successfully");
     }
 }
