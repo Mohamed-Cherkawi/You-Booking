@@ -12,7 +12,6 @@ import org.youbooking.root.services.interfaces.HotelServiceInterface;
 import org.youbooking.root.utils.EntityMapping;
 
 import jakarta.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,16 +25,17 @@ public class HotelService implements HotelServiceInterface {
 
     @Override // TODO: Pageable
     public Set<HotelDto> getAllHotels(){
-        List<Hotel> hotels = hotelRepository.findAll();
-        return hotels.stream()
+        return hotelRepository.findAll().stream()
                 .map(EntityMapping::hotelToHotelDTO)
                 .collect(Collectors.toSet());
     }
     @Override
     public HotelDto getHotel(Long id){
-        Optional<Hotel> hotelOptional = hotelRepository.findById(id);
-        return hotelOptional.map(EntityMapping::hotelToHotelDTO)
-                .orElse(null);
+        Hotel hotel = hotelRepository.findById(id).orElse(null);
+        if(hotel == null)
+            return null;
+
+        return EntityMapping.hotelToHotelDTO(hotel);
     }
     @Override @Transactional
     public HotelDto createHotel(HotelDto hotel) {
@@ -68,14 +68,7 @@ public class HotelService implements HotelServiceInterface {
         return EntityMapping.hotelToHotelDTO(hotelRepository.save(hotelToBeUpdated));
     }
     @Override @Transactional
-    public boolean deleteHotel(Long hotelId){
-        Optional<Hotel> hotelOptional = hotelRepository.findById(hotelId);
-
-        if( hotelOptional.isEmpty() )
-            return false;
-
+    public void deleteHotel(Long hotelId){
          hotelRepository.deleteById(hotelId);
-
-         return true;
     }
 }
