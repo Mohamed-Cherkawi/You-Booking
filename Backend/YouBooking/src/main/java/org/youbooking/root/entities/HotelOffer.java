@@ -1,6 +1,7 @@
 package org.youbooking.root.entities;
 
-import lombok.AccessLevel;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,11 +33,14 @@ public class HotelOffer {
     @Column(nullable = false)
     private String description;
 
-    @Setter(AccessLevel.NONE)
     @Column(name = "creation_date", nullable = false)
-    private LocalDateTime creationDate;
+    private LocalDateTime creationDate = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
-    private AcceptanceStateEnum status;
+    private AcceptanceStateEnum status = AcceptanceStateEnum.PENDING;
+
+    @ManyToOne
+    @JoinColumn(name = "hotel_id", nullable = false)
+    private Hotel hotel;
 
 }
