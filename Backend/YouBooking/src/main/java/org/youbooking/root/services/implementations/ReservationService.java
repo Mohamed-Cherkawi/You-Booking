@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service("reservation-service") @RequiredArgsConstructor
+@Service @RequiredArgsConstructor
 public class ReservationService implements ReservationServiceInterface {
     private final ReservationRepository reservationRepository;
     private final BedRoomRepository bedRoomRepository;
@@ -78,7 +78,7 @@ public class ReservationService implements ReservationServiceInterface {
         return EntityMapping.reservationToReservationDto(reservationRepository.save(reservationToBeUpdated));
     }
 
-    @Override
+    @Override @Transactional
     public ReservationDto updateReservationStatus(StatusMapping<Long, AcceptanceStateEnum> statusMapping) {
         Optional<Reservation> reservationOptional = reservationRepository.findById(statusMapping.getId());
 
