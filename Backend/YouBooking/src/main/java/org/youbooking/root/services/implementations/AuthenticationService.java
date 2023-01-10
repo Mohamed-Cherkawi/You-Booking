@@ -56,6 +56,8 @@ public class AuthenticationService implements AuthenticationServiceInterface {
         );
 
         AppUser user = userService.findUserByUsername(request.getUsername());
+        if(user.getStatus().equals(AvailabilityStateEnum.BANNED))
+            return null;
 
         String jwtToken = jwtService.generateToken(user);
 
