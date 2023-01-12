@@ -67,7 +67,7 @@ public class AppUser implements UserDetails {
     @OneToMany(cascade = CascadeType.PERSIST)
     @ToString.Exclude
     @JsonIgnore
-    private Set<HotelOffer> hotelOffers = null;
+    private Set<HotelOffer> hotelOffers;
 
     @OneToMany(
             mappedBy = "reservedBy",
@@ -76,7 +76,7 @@ public class AppUser implements UserDetails {
     )
     @ToString.Exclude
     @JsonIgnore
-    private Set<Reservation> reservations = null;
+    private Set<Reservation> reservations;
 
     @OneToMany(
             mappedBy = "owner",
@@ -85,7 +85,7 @@ public class AppUser implements UserDetails {
     )
     @ToString.Exclude
     @JsonIgnore
-    private Set<Hotel> createdHotels = null;
+    private Set<Hotel> createdHotels;
 
     public AppUser(String username, String password, String name, String phone, String cin, Role role) {
         this.username = username;
