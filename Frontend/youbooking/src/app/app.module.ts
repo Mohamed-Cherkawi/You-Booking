@@ -11,6 +11,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {RouterOutlet} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
+import {AppRoutingModule} from "./app-routing.module";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {MatIconModule} from "@angular/material/icon";
     MatButtonModule,
     ReactiveFormsModule,
     RouterOutlet,
-    MatIconModule
+    MatIconModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
