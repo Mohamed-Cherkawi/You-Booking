@@ -2,6 +2,7 @@
   <mat-card-content>
     <div class="header">
       <P>Sign Into Your Account </P>
+      <span *ngIf="credentialsError">Bad Credentials</span>
     </div>
     <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForm">
       <div class="usernameInput">
