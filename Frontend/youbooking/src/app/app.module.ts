@@ -12,11 +12,13 @@ import {MatButtonModule} from "@angular/material/button";
 import {RouterOutlet} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {AppRoutingModule} from "./app-routing.module";
+import { RegisterComponent } from './modules/register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
