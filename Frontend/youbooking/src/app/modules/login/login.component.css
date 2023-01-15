@@ -2,7 +2,17 @@ mat-card {
   width: 500px;
   text-align: center;
 }
-
+label {
+  display: block;
+  text-align: start;
+  margin-left: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.specialLabel {
+  margin-left: 0.8rem;
+}
 .header{
   text-align: center;
   font-weight: bold;

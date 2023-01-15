@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormGroup, Validators, FormBuilder} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../services/authentication.service";
-import {AuthenticationRequest} from "../../models/auth/authentication-request.model";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AuthenticationResponse} from "../../models/auth/authentication-response.model";
+import {AuthenticationRequest} from "../../models/auth/authentication-request.model";
 
 @Component({
   selector: 'app-login',
@@ -14,10 +14,8 @@ import {AuthenticationResponse} from "../../models/auth/authentication-response.
 export class LoginComponent implements OnInit {
   hide: boolean = false;
   credentialsError: boolean = false;
-  loginForm: FormGroup = this.fb.group({
-    username: ['', [Validators.required, Validators.minLength(5)]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
-  })
+  loginForm!: FormGroup;
+  authenticationRequest: AuthenticationRequest = new AuthenticationRequest();
 
   constructor(
     private fb: FormBuilder ,
@@ -25,21 +23,30 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService) { }
 
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      username: ['', [Validators.required, Validators.minLength(5)]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
   public onLogin(){
-    if (!this.loginForm.valid) {
+    if (!this.loginForm.valid)
       return;
-    }
+
     this.handleFormButton();
 
-    this.authService.authenticate(new AuthenticationRequest(this.loginForm.value.username,this.loginForm.value.password))
+    this.authenticationRequest.setPassword(this.loginForm.value.password);
+    this.authenticationRequest.setUsername(this.loginForm.value.username);
+
+    this.authService.authenticate(this.loginForm.value.username,this.loginForm.value.password)
       .subscribe(
        {
        next:
-         (response: AuthenticationResponse | string) => {
+         (response: AuthenticationResponse) => {
          this.credentialsError = false;
          console.log(response);
+         localStorage.setItem('token',response.token);
          this.redirectToHome();
          },
        error:
@@ -52,7 +59,7 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/register']);
   }
 
-  private handleFormButton(): void {
+  public handleFormButton(): void {
     const button = document.querySelector("button");
     button!.disabled = true;
     button!.style.opacity = "0.5";
@@ -62,4 +69,5 @@ export class LoginComponent implements OnInit {
       button!.style.opacity = "1";
     }, 1000);
   }
+
 }

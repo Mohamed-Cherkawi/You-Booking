@@ -6,23 +6,34 @@
     </div>
     <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForm">
       <div class="usernameInput">
+        <label for="username">Username</label>
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Username</mat-label>
           <input
+            type="text"
+            name="username"
+            id="username"
             formControlName="username"
             matInput
             placeholder="Enter a username" required
           />
           <mat-error *ngIf="!loginForm.controls['username'].valid">
-            Username is required ( min : 5 characters )
+              Username is required ( min : 5 characters )
           </mat-error>
         </mat-form-field>
       </div>
 
       <div class="passwordInput">
+        <label for="password">Password</label>
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Password</mat-label>
-          <input formControlName="password" matInput [type]=" hide ? 'password' : 'text'" required />
+          <input
+                type="text"
+                name="password"
+                id="password"
+                formControlName="password"
+                 matInput [type]=" hide ? 'password' : 'text'"
+                 required />
           <span  matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
                    [attr.aria-pressed]="hide">
             <mat-icon>
