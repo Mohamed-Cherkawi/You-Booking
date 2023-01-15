@@ -1,0 +1,9 @@
+@import '../login/login.component.css';
+
+#alreadyMemSpan{
+  display: block;
+}
+#nameGroupHolder{
+  display: flex;
+  justify-content: space-evenly;
+}

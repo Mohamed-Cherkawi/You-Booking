@@ -1,1 +1,128 @@
-<p>register welcomes you!</p>
+<mat-card>
+  <mat-card-content>
+    <div class="header">
+      <P>Register A New Account </P>
+      <span *ngIf="isUsernameUsed">An Account has already registered with {{ registerForm.value.username }} !</span>
+    </div>
+    <form (ngSubmit)="onRegister()" name="registerForm" [formGroup]="registerForm">
+      <div class="usernameInput">
+        <label for="username">Username</label>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Username</mat-label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            formControlName="username"
+            matInput
+            placeholder="Ex: Jhon2023#" required
+          />
+          <mat-error *ngIf="!registerForm.controls['username'].valid">
+            Username is required ( min : 5 characters )
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div formGroupName="name" id="nameGroupHolder">
+        <div>
+          <label for="firstName" class="specialLabel">first Name</label>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>first name</mat-label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            placeholder="type first Name"
+            formControlName="firstName"
+            matInput
+             required
+          />
+          <mat-error *ngIf="!registerForm.controls['name'].valid">
+            FirstName is required ( min : 1 character )
+          </mat-error>
+        </mat-form-field>
+        </div>
+        <div>
+          <label for="lastName" class="specialLabel">last Name</label>
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>last name</mat-label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              placeholder="type last Name"
+              formControlName="lastName"
+              matInput
+              required
+            />
+            <mat-error *ngIf="!registerForm.controls['name'].valid">
+              LastName is required ( min : 1 character )
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div>
+        <label for="phone">Phone</label>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Phone</mat-label>
+          <input
+            type="number"
+            id="phone"
+            name="number"
+            formControlName="phone"
+            matInput
+            placeholder="Ex: 0692929292" required
+          />
+          <mat-error *ngIf="!registerForm.controls['phone'].valid">
+            Phone is required ( min : 10 characters )
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="passwordInput">
+        <label for="password">Password</label>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Password</mat-label>
+          <input
+            id="password"
+            name="password"
+            placeholder="type password"
+            formControlName="password"
+            matInput [type]=" hide ? 'password' : 'text'"
+            required />
+          <span  matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
+                 [attr.aria-pressed]="hide">
+            <mat-icon>
+              {{hide ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+          </span>
+          <mat-error *ngIf="!registerForm.controls['password'].valid">
+            Password is required ( min : 6 characters )
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <label>Role</label>
+      <mat-form-field appearance="fill">
+        <mat-label>Application Role</mat-label>
+        <mat-select
+          formControlName="role"
+          required
+        >
+          <mat-option *ngFor="let role of roles" [value]="role.value">
+            {{role.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      </div>
+      <button mat-flat-button type="submit" color="primary">Register</button>
+    </form>
+
+    <div class="button-row">
+      <span id="alreadyMemSpan">Already A Member ?</span>
+      <br>
+      <a routerLink="/login">Login From Here</a>
+    </div>
+  </mat-card-content>
+</mat-card>
