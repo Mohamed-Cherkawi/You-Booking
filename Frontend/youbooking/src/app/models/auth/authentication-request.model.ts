@@ -1,10 +1,14 @@
 export class AuthenticationRequest {
-  private username!: string;
-  private password!: string;
+   username!: string;
+   password!: string;
 
+  constructor() {}
 
-  constructor(username: string, password: string) {
-    this.username = username;
-    this.password = password;
+  setUsername(value: string) {
+    this.username = value;
+  }
+
+  setPassword(value: string) {
+    this.password = value;
   }
 }
