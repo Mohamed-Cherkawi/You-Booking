@@ -5,23 +5,14 @@ import {Address} from "./address.model";
 import {Attachment} from "./attachment.model";
 
 export class Hotel {
-  id: number;
-  name: string;
-  bedRooms: BedRoom[];
-  address: Address;
-  attachments: Attachment[] ;
-  status: HotelStateEnum;
-  isApproved: boolean;
-  owner: AppUser;
+  id!: number;
+  name!: string;
+  bedRooms!: BedRoom[];
+  address!: Address;
+  attachments!: Attachment[] ;
+  status!: HotelStateEnum;
+  isApproved!: boolean;
+  owner!: AppUser;
+  numOfRooms!: number;
 
-  constructor(id: number, name: string, bedRooms: BedRoom[], address: Address, attachments: Attachment[] , status: HotelStateEnum, isApproved: boolean, owner: AppUser) {
-    this.id = id;
-    this.name = name;
-    this.bedRooms = bedRooms;
-    this.address = address;
-    this.attachments = attachments;
-    this.status = status;
-    this.isApproved = isApproved;
-    this.owner = owner;
-  }
 }
