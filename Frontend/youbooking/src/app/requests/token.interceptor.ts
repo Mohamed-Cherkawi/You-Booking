@@ -17,13 +17,12 @@ export class TokenInterceptor implements HttpInterceptor {
     // Get the token from local storage
     const token = localStorage.getItem('token');
     console.log(token)
-    // If there is a token, add it to the headers
-    if (token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+
+    if(!request.url.toString().includes("authenticate")){
+      let clone = request.clone({headers:request.headers.set("Authorization", `Bearer ${token}`)});
+      console.log(clone)
+      //let headers=new HttpHeaders().append('Authorization',`Bearer ${token}`)
+      return next.handle(clone);
     }
     return next.handle(request);
   }
