@@ -5,6 +5,8 @@ import {AuthenticationService} from "../../services/authentication.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AuthenticationResponse} from "../../models/auth/authentication-response.model";
 import {AuthenticationRequest} from "../../models/auth/authentication-request.model";
+import {AdminService} from "../../services/amdin.service";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder ,
     private router: Router ,
-    private authService: AuthenticationService) { }
+    private authService: AuthenticationService ,
+    private adminService: AdminService ,
+    private jwtHelper: JwtHelperService) { }
 
 
   public ngOnInit(): void {
@@ -31,6 +35,8 @@ export class LoginComponent implements OnInit {
   }
 
   public onLogin(){
+    localStorage.removeItem('token');
+
     if (!this.loginForm.valid)
       return;
 
@@ -39,27 +45,36 @@ export class LoginComponent implements OnInit {
     this.authenticationRequest.setPassword(this.loginForm.value.password);
     this.authenticationRequest.setUsername(this.loginForm.value.username);
 
-    this.authService.authenticate(this.loginForm.value.username,this.loginForm.value.password)
+    this.authenticationRequest.setUsername(this.loginForm.value.username);
+    this.authenticationRequest.setPassword(this.loginForm.value.password);
+
+    this.authService.authenticate(this.authenticationRequest)
       .subscribe(
        {
        next:
          (response: AuthenticationResponse) => {
          this.credentialsError = false;
-         console.log(response);
-         localStorage.setItem('token',response.token);
-         this.redirectToHome();
+         console.log("First Request" , response);
+         const token = response.token;
+         const decodedToken =  this.jwtHelper.decodeToken(token);
+         localStorage.setItem('token',token);
+
+         this.redirectToHome(decodedToken.role);
          },
        error:
          (error : HttpErrorResponse) => {
            this.credentialsError = true;
          }
      });
-  }
-  private redirectToHome(){
-    this.router.navigate(['/register']);
-  }
 
-  public handleFormButton(): void {
+  }
+  private redirectToHome(userRole: string){
+    if(userRole == 'CLIENT')
+    this.router.navigate(['/home']);
+    else
+      this.router.navigate(['/test'])
+  }
+  private handleFormButton(): void {
     const button = document.querySelector("button");
     button!.disabled = true;
     button!.style.opacity = "0.5";

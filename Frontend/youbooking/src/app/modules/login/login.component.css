@@ -1,7 +1,14 @@
+.formsMainContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 mat-card {
-  width: 500px;
+  min-width: 500px;
   text-align: center;
 }
+
 label {
   display: block;
   text-align: start;
@@ -58,4 +65,7 @@ button:hover {
   float: right;
   padding-right: 60px;
   text-decoration: none;
+}
+a {
+  cursor: pointer !important;
 }
