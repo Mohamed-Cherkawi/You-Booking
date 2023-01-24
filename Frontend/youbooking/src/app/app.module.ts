@@ -15,12 +15,21 @@ import {AppRoutingModule} from "./app-routing.module";
 import { RegisterComponent } from './modules/register/register.component';
 import {TokenInterceptor} from "./requests/token.interceptor";
 import {MatSelectModule} from "@angular/material/select";
+import { HomeComponent } from './modules/home/home.component';
+import {JWT_OPTIONS, JwtModule} from "@auth0/angular-jwt";
+import { TestComponent } from './modules/test/test.component';
+import { HeaderComponent } from './layouts/header/header.component';
+import { FooterComponent } from './layouts/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    HomeComponent,
+    TestComponent,
+    HeaderComponent,
+    FooterComponent
   ],
     imports: [
         BrowserModule,
@@ -34,7 +43,16 @@ import {MatSelectModule} from "@angular/material/select";
         RouterOutlet,
         MatIconModule,
         AppRoutingModule,
-        MatSelectModule
+        MatSelectModule,
+        JwtModule.forRoot({
+        jwtOptionsProvider: { // this provider is necessary to use the librairy that decoes and manages the JWT
+          provide: JWT_OPTIONS,
+          useValue: {
+
+            // other options you want to pass to the JWT module
+          }
+        }
+      })
     ],
   providers: [
     {
