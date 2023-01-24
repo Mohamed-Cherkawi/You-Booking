@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.youbooking.root.entities.AppUser;
 import org.youbooking.root.enums.AvailabilityStateEnum;
+import org.youbooking.root.enums.RoleEnum;
+import org.youbooking.root.repositories.RoleRepository;
 import org.youbooking.root.repositories.UserRepository;
 import org.youbooking.root.services.interfaces.UserServiceInterface;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @Service @RequiredArgsConstructor
 public class UserService implements UserServiceInterface {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public List<AppUser> getAllUsers() {
@@ -53,8 +56,14 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
+    public AppUser findUserByRole(RoleEnum role) {
+        return userRepository.findByRole(
+                roleRepository.findRoleByName(role)
+                ).orElse(null);
+    }
+
+    @Override
     public boolean isUsernameAlreadyExists(String username) {
-        AppUser user = findUserByUsername(username);
-        return user != null;
+        return findUserByUsername(username) != null;
     }
 }
