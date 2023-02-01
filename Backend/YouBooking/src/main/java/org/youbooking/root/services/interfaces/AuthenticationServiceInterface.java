@@ -6,5 +6,5 @@ import org.youbooking.root.services.dtos.auth.RegisterRequestDto;
 
 public interface AuthenticationServiceInterface {
     AuthenticationResponse register(RegisterRequestDto request);
-    AuthenticationResponse authenticate(AuthenticationRequestDto request);
+    Object authenticate(AuthenticationRequestDto request);
 }
