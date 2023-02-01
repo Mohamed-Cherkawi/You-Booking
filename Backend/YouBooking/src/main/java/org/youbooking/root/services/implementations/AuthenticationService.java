@@ -3,6 +3,7 @@ package org.youbooking.root.services.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.youbooking.root.entities.AppUser;
@@ -47,17 +48,21 @@ public class AuthenticationService implements AuthenticationServiceInterface {
     }
 
     @Override
-    public AuthenticationResponse authenticate(AuthenticationRequestDto request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
+    public Object authenticate(AuthenticationRequestDto request) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
+        } catch(AuthenticationException e){
+            return "400";
+        }
 
         AppUser user = userService.findUserByUsername(request.getUsername());
         if(user.getStatus().equals(AvailabilityStateEnum.BANNED))
-            return null;
+            return "403";
 
         String jwtToken = jwtService.generateToken(user);
 
