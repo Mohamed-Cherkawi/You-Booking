@@ -26,9 +26,12 @@ public class AuthenticationController {
     }
     @PostMapping("/login")
      public ResponseEntity<Object> authenticate(@RequestBody AuthenticationRequestDto request) {
-        AuthenticationResponse authResponse = service.authenticate(request);
-        return ( authResponse == null )
-            ? ResponseEntity.status(HttpStatus.FORBIDDEN).body("You can't reach the application for now because the admin has banned you")
-            : ResponseEntity.ok(authResponse);
+        Object authResponse = service.authenticate(request);
+        if( authResponse.equals("403"))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You can't reach the application for now because the admin has banned you");
+        else if (authResponse.equals("400"))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Credentials or the account is not even exists");
+        else
+            return ResponseEntity.ok(authResponse);
     }
 }
