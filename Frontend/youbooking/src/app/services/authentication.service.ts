@@ -13,11 +13,11 @@ export class AuthenticationService {
   private restPath: string = environment.apisBaseUrl + "/api/authenticate";
   constructor(private http: HttpClient) {}
 
-  public  register(request: RegisterRequest): Observable< AuthenticationResponse | string> {
-    return this.http.post<AuthenticationResponse | string>(`${this.restPath}/register`,request);
+  public  register(request: RegisterRequest): Observable< AuthenticationResponse> {
+    return this.http.post<AuthenticationResponse>(`${this.restPath}/register`,request);
 }
-  public  authenticate(request: AuthenticationRequest): Observable<AuthenticationResponse | string> {
-    return this.http.post<AuthenticationResponse | string >(`${this.restPath}/login`,request);
+  public  authenticate(request: AuthenticationRequest): Observable<AuthenticationResponse> {
+    return this.http.post<AuthenticationResponse>(`${this.restPath}/login`, request);
 }
 
 }
