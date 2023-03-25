@@ -17,7 +17,6 @@ import {TokenInterceptor} from "./requests/token.interceptor";
 import {MatSelectModule} from "@angular/material/select";
 import { HomeComponent } from './modules/home/home.component';
 import {JWT_OPTIONS, JwtModule} from "@auth0/angular-jwt";
-import { TestComponent } from './modules/test/test.component';
 import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 
@@ -27,7 +26,6 @@ import { FooterComponent } from './layouts/footer/footer.component';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    TestComponent,
     HeaderComponent,
     FooterComponent
   ],
@@ -48,8 +46,6 @@ import { FooterComponent } from './layouts/footer/footer.component';
         jwtOptionsProvider: { // this provider is necessary to use the librairy that decoes and manages the JWT
           provide: JWT_OPTIONS,
           useValue: {
-
-            // other options you want to pass to the JWT module
           }
         }
       })
